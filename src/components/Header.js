@@ -9,18 +9,45 @@ function Header() {
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: '#333' }}>
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography 
+          variant="h6" 
+          component="div" 
+          sx={{ flexGrow: 1, fontWeight: 'bold', color: '#fff' }}
+        >
           Ma Boutique
         </Typography>
-        <Button color="inherit" component={RouterLink} to="/">
+        <Button 
+          color="inherit" 
+          component={RouterLink} 
+          to="/" 
+          sx={{ 
+            marginRight: '16px',
+            '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' },
+          }}
+        >
           Accueil
         </Button>
-        <Button color="inherit" component={RouterLink} to="/products">
+        <Button 
+          color="inherit" 
+          component={RouterLink} 
+          to="/products" 
+          sx={{ 
+            marginRight: '16px',
+            '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' },
+          }}
+        >
           Produits
         </Button>
-        <IconButton color="inherit" component={RouterLink} to="/cart">
+        <IconButton 
+          color="inherit" 
+          component={RouterLink} 
+          to="/cart"
+          sx={{ 
+            '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' },
+          }}
+        >
           <Badge badgeContent={itemCount} color="error">
             <ShoppingCartIcon />
           </Badge>

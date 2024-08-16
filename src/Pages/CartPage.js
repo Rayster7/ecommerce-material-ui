@@ -16,9 +16,9 @@ import {
 import { addToCart, decreaseQuantity, removeFromCart } from '../features/cartSlice';
 
 function CartPage() {
-  const cartItems = useSelector((state) => state.cart);
+  const cartItems = useSelector((state) => state.cart || []);
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Add the useNavigate hook
+  const navigate = useNavigate();
 
   const handleIncreaseQuantity = (item) => {
     dispatch(addToCart(item));
@@ -33,30 +33,29 @@ function CartPage() {
   };
 
   const calculateTotal = () => {
-    return cartItems
-      .reduce((total, item) => total + item.price * item.quantity, 0)
-      .toFixed(2);
+    return (cartItems
+      .reduce((total, item) => total + (item.price * (item.quantity || 1)), 0)
+      .toFixed(2));
   };
 
   const handleCheckout = () => {
-    // Navigate to the checkout page
     navigate('/checkout');
   };
 
   if (cartItems.length === 0) {
     return (
-      <Typography variant="h5" sx={{ mt: 2 }}>
+      <Typography variant="h5" sx={{ mt: 2, textAlign: 'center' }}>
         Votre panier est vide.
       </Typography>
     );
   }
 
   return (
-    <Box sx={{ mt: 2 }}>
+    <Box sx={{ mt: 2, mx: 3 }}>
       <Typography variant="h4" gutterBottom>
         Votre Panier
       </Typography>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 2 }}>
         <Table>
           <TableHead>
             <TableRow>
@@ -74,7 +73,7 @@ function CartPage() {
                   <img
                     src={item.image}
                     alt={item.title}
-                    style={{ width: 50, height: 50 }}
+                    style={{ width: 80, height: 80, borderRadius: 4 }}
                   />
                 </TableCell>
                 <TableCell>{item.title}</TableCell>
@@ -83,6 +82,7 @@ function CartPage() {
                   <Button
                     variant="outlined"
                     color="primary"
+                    sx={{ mr: 1 }}
                     onClick={() => handleIncreaseQuantity(item)}
                   >
                     +
@@ -91,7 +91,8 @@ function CartPage() {
                   <Button
                     variant="outlined"
                     color="secondary"
-                    onClick={() => handleDecreaseQuantity(item)} // Use decreaseQuantity here
+                    sx={{ ml: 1 }}
+                    onClick={() => handleDecreaseQuantity(item)}
                   >
                     -
                   </Button>
@@ -110,17 +111,19 @@ function CartPage() {
           </TableBody>
         </Table>
       </TableContainer>
-      <Typography variant="h6" sx={{ mt: 2 }}>
-        Total: {calculateTotal()} €
-      </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{ mt: 2 }}
-        onClick={handleCheckout}
-      >
-        Passer à la caisse
-      </Button>
+      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant="h6">
+          Total: {calculateTotal()} €
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ mt: 2 }}
+          onClick={handleCheckout}
+        >
+          Passer à la caisse
+        </Button>
+      </Box>
     </Box>
   );
 }

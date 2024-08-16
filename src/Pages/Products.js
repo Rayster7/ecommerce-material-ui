@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Grid, CircularProgress, Typography } from '@mui/material';
+import { Grid, CircularProgress, Typography, Box } from '@mui/material';
 import ProductCard from '../components/ProductCard';
 
 function Products() {
@@ -22,12 +22,23 @@ function Products() {
   }, []);
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <Box 
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          minHeight: '80vh' 
+        }}
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
   }
 
   return (
-    <>
-      <Typography variant="h2" component="h1" gutterBottom>
+    <Box sx={{ padding: 3 }}>
+      <Typography variant="h2" component="h1" gutterBottom sx={{ marginBottom: 4 }}>
         Nos produits
       </Typography>
       <Grid container spacing={3}>
@@ -37,7 +48,7 @@ function Products() {
           </Grid>
         ))}
       </Grid>
-    </>
+    </Box>
   );
 }
 
